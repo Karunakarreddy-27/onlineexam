@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
+const apiUrl = (route) => `${apiBaseUrl}/api${route}`
+
 const questions = [
   { id: 1, topic: 'HTML', prompt: 'Which HTML element represents the main content of a document?', options: ['<section>', '<main>', '<aside>', '<summary>'], answer: 1 },
   { id: 2, topic: 'CSS', prompt: 'Which CSS layout system is designed for arranging items in rows or columns?', options: ['Float', 'Position', 'Flexbox', 'Z-index'], answer: 2 },
@@ -59,7 +62,7 @@ function App() {
     setStudent({ name, email, id })
     setFormError('')
     try {
-      await fetch('/api/students', {
+      await fetch(apiUrl('/students'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, studentId: id }),
@@ -76,7 +79,7 @@ function App() {
     setScreen('result')
     setSaveError('')
     try {
-      const response = await fetch('/api/results', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) })
+      const response = await fetch(apiUrl('/results'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) })
       if (!response.ok && response.status !== 404) setSaveError('Your result is saved on this device. The server could not save it.')
     } catch {
       setSaveError('Your result is saved on this device. Connect the exam API to sync it to the server.')

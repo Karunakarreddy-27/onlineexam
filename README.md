@@ -27,6 +27,12 @@ Vite proxies `/api` calls to port 5000. `MONGO_URI` is the preferred Atlas setti
 
 The Express server serves both the built React site and `/api` routes. On a Node hosting provider, set the build command to `npm install && npm run build` and the start command to `npm start`. Add `MONGO_URI` and `MONGODB_DB=examDB` as private environment variables in the host dashboard. The app listens on the host-provided `PORT` (5000 locally). In Atlas Network Access, allow the hosting provider's outbound IP addresses.
 
+## Publish the interface on GitHub Pages
+
+The repository includes a GitHub Actions workflow that builds the Vite site and deploys `dist` to Pages. In **Settings → Pages**, change **Source** from “Deploy from a branch” to **GitHub Actions**. After the workflow completes, the project site URL is `https://karunakarreddy-27.github.io/onlineexam/`.
+
+GitHub Pages only serves the static interface. To save students and results to MongoDB, deploy the API with the one-service instructions above, then add an Actions variable named `VITE_API_BASE_URL` with the API's public origin (for example, `https://your-api-host.example.com`). Push a new commit or rerun the Pages workflow after setting the variable.
+
 ## API routes
 
 | Method | Route | Purpose |
